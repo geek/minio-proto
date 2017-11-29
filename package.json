@@ -1,0 +1,25 @@
+{
+  "name": "minio-proto",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "init": "cp node_modules/minio-proto-api/sql/* sql",
+    "predev": "docker-compose -f dev-compose.yml up -d",
+    "dev": "NODE_ENV=development node -r ./.env.js --inspect dev-server.js",
+    "postdev": "docker-compose -f dev-compose.yml down -v",
+    "start": "NODE_ENV=production node -r ./.env.js server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crumb": "7.0.x",
+    "hapi": "17.1.x",
+    "hapi-pino": "3.2.x",
+    "inert": "5.0.x",
+    "minio-proto-api": "1.x.x",
+    "minio-proto-auth": "1.x.x",
+    "minio-proto-ui": "1.x.x"
+  }
+}
