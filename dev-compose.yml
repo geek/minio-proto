@@ -1,17 +1,48 @@
-version: '2.1'
+mysql:
+  image: mysql:8
+  mem_limit: 512m
+  restart: always
+  expose:
+    - 3306
+  env_file:
+    - _env_mysql
+  volumes:
+    - ./sql:/docker-entrypoint-initdb.d
 
-services:
-  mysql:
-    image: mysql:8
-    mem_limit: 512m
-    restart: always
-    ports:
-      - 3306:3306
-    environment:
-      - MYSQL_ROOT_PASSWORD=test-root-pass
-      - MYSQL_DATABASE=test-db
-      - MYSQL_USER=test-user
-      - MYSQL_PASSWORD=test-pass
-    volumes:
-      - ./sql:/docker-entrypoint-initdb.d
+consul:
+  image: autopilotpattern/consul:1.0.0r43
+  command: >
+    /usr/local/bin/containerpilot
+    /bin/consul agent -server
+      -config-dir=/etc/consul
+      -log-level=err
+      -bootstrap-expect 1
+      -ui-dir /ui
+  restart: always
+  mem_limit: 128m
+  labels:
+    - triton.cns.services=bridge-consul
+  expose:
+    - 9090
+    - 8500
+
+prototype:
+  build: ./
+  restart: always
+  mem_limit: 1g
+  env_file:
+    - _env
+    - _env_mysql
+  environment:
+    - PORT=8080
+    - CONSUL=consul
+    - CONSUL_AGENT=1
+  links:
+    - consul:consul
+    - mysql:mysql
+  ports:
+    - 80:80
+    - 443:443
+  dns:
+    - 127.0.0.1
 

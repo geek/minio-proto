@@ -4,3 +4,7 @@ node_modules
 .env.js
 .allowed.js
 sql/*
+.env
+_env
+_env_mysql
+keys*

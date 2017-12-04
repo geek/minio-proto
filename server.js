@@ -38,7 +38,7 @@ async function main () {
         },
         sso: {
           keyPath: process.env.SDC_KEY_PATH,
-          keyId: process.env.SDC_KEY_ID,
+          keyId: process.env.SDC_ACCOUNT + '/keys/' + process.env.SDC_KEY_ID,
           apiBaseUrl: process.env.SDC_URL
         }
       }
@@ -50,9 +50,9 @@ async function main () {
       plugin: Api,
       options: {
         db: {
-          user: 'test-user',
-          password: 'test-pass',
-          database: 'test-db'
+          user: process.env.MYSQL_USER,
+          password: process.env.MYSQL_PASSWORD,
+          database: process.env.MYSQL_DATABASE
         }
       }
     },
