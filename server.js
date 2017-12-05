@@ -1,5 +1,6 @@
 'use strict';
 
+const Brule = require('brule');
 const Crumb = require('crumb');
 const Hapi = require('hapi');
 const HapiPino = require('hapi-pino');
@@ -9,7 +10,7 @@ const Sso = require('minio-proto-auth');
 const UI = require('minio-proto-ui');
 
 async function main () {
-  const server = Hapi.server({ port: process.env.PORT || 80 });
+  const server = Hapi.server({ port: process.env.PORT || 80, host: '127.0.0.1' });
 
   await server.register([
     Inert,
@@ -38,10 +39,11 @@ async function main () {
         },
         sso: {
           keyPath: process.env.SDC_KEY_PATH,
-          keyId: process.env.SDC_ACCOUNT + '/keys/' + process.env.SDC_KEY_ID,
+          keyId: '/' + process.env.SDC_ACCOUNT + '/keys/' + process.env.SDC_KEY_ID,
           apiBaseUrl: process.env.SDC_URL,
           url: 'https://sso.joyent.com/login',
-          permissions: JSON.stringify({ 'cloudapi': ['/my/*'] })
+          permissions: { 'cloudapi': ['/my/*'] },
+          baseUrl: process.env.BASE_URL
         }
       }
     },
@@ -54,8 +56,15 @@ async function main () {
         db: {
           user: process.env.MYSQL_USER,
           password: process.env.MYSQL_PASSWORD,
-          database: process.env.MYSQL_DATABASE
+          database: process.env.MYSQL_DATABASE,
+          host: process.env.MYSQL_HOST
         }
+      }
+    },
+    {
+      plugin: Brule,
+      options: {
+        auth: false
       }
     },
     {

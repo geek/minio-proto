@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "brule": "3.0.x",
+    "brule": "3.1.x",
     "crumb": "7.0.x",
     "hapi": "17.1.x",
     "hapi-pino": "3.2.x",

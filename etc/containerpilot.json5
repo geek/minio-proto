@@ -40,7 +40,23 @@
         once: 'healthy'
       },
       restarts: 'unlimited'
-    }
+    },
+    {
+      name: 'nginx',
+      port: 443,
+      exec: 'nginx',
+      interfaces: ["eth0", "eth1"],
+      restarts: 'unlimited',
+      when: {
+        source: 'prototype',
+        once: 'healthy'
+      },
+      health: {
+        exec: 'pstree nginx',
+        interval: 10,
+        ttl: 25
+      }
+    },
   ],
   watches: [],
   telemetry: {

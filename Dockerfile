@@ -1,7 +1,7 @@
 FROM node:8-alpine
 
 RUN apk update \
-    && apk add --update curl bash nginx openssl \
+    && apk add --update curl bash nginx openssl openssh \
     && apk upgrade \
     && rm -rf /var/cache/apk/*
 
@@ -25,9 +25,11 @@ RUN export CP_SHA1=1248784ff475e6fda69ebf7a2136adbfb902f74b \
 # COPY ContainerPilot configuration
 ENV CONTAINERPILOT_PATH=/etc/containerpilot.json5
 ENV CONTAINERPILOT=${CONTAINERPILOT_PATH}
-COPY bin /bin
-COPY etc/containerpilot.json5 /etc/containerpilot.json5
-COPY etc/nginx.conf /etc/nginx/nginx.conf
+COPY ./bin /bin
+COPY ./etc/containerpilot.json5 /etc/containerpilot.json5
+COPY ./etc/nginx.conf /etc/nginx/nginx.conf
+
+RUN mkdir -p /opt/app/
 COPY package.json /opt/app/
 COPY server.js /opt/app/
 

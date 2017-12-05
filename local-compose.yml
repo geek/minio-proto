@@ -13,13 +13,16 @@ consul:
   image: autopilotpattern/consul:1.0.0r43
   command: >
     /usr/local/bin/containerpilot
+  environment:
+   - CONSUL_DEV=1
+   - CONSUL=localhost
   restart: always
-  mem_limit: 128m
+  mem_limit: 512m
   labels:
     - triton.cns.services=bridge-consul
-  expose:
-    - 9090
-    - 8500
+  ports:
+    - 9090:9090
+    - 8500:8500
 
 prototype:
   build: ./
@@ -32,12 +35,11 @@ prototype:
     - PORT=8080
     - CONSUL=consul
     - CONSUL_AGENT=1
+    - MYSQL_HOST=mysql
+    - BASE_URL=https://localhost
   links:
     - consul:consul
     - mysql:mysql
   ports:
     - 80:80
     - 443:443
-  dns:
-    - 127.0.0.1
-
