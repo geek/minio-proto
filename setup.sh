@@ -155,8 +155,12 @@ check() {
 
     echo >> _env_mysql
 
+    TRITON_CREDS_PATH=/root/.triton
+
     echo 'COOKIE_PASSWORD='$(cat /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9' | head -c 36) >> _env
-    echo DOCKER_CERT_PATH=${DOCKER_CERT_PATH} >> _env
+    echo SDC_KEY_PATH=/root/.ssh/id_rsa >> _env
+    echo DOCKER_CERT_PATH=${TRITON_CREDS_PATH} >> _env
+    echo TRITON_CREDS_PATH=${TRITON_CREDS_PATH} >> _env
     echo DOCKER_TLS_VERIFY=1 >> _env
     echo DOCKER_HOST=${DOCKER_HOST} >> _env
     echo SDC_URL=${SDC_URL} >> _env

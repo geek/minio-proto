@@ -13,11 +13,6 @@ consul:
   image: autopilotpattern/consul:1.0.0r43
   command: >
     /usr/local/bin/containerpilot
-    /bin/consul agent -server
-      -config-dir=/etc/consul
-      -log-level=err
-      -bootstrap-expect 1
-      -ui-dir /ui
   restart: always
   mem_limit: 128m
   labels:

@@ -16,10 +16,10 @@
                   '-retry-max', '20',
                   '-retry-interval', '5s'],
       restarts: 'unlimited',
-      "health": {
-        "exec": "curl -so /dev/null http://127.0.0.1:8080",
-        "interval": 10,
-        "ttl": 25
+      health: {
+        exec: "curl -so /dev/null http://localhost:8500",
+        interval: 10,
+        ttl: 25,
       },
       when: {
         source: 'setup-config',
@@ -38,7 +38,7 @@
       when: {
         source: 'consul-agent',
         once: 'healthy'
-      }
+      },
       restarts: 'unlimited'
     }
   ],
