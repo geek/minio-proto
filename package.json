@@ -19,7 +19,7 @@
     "hapi": "17.1.x",
     "hapi-pino": "3.2.x",
     "inert": "5.0.x",
-    "minio-proto-api": "1.x.x",
+    "minio-proto-api": "1.3.x",
     "minio-proto-auth": "1.x.x",
     "minio-proto-ui": "1.x.x"
   }

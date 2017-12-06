@@ -37,6 +37,7 @@ prototype:
     - CONSUL_AGENT=1
     - MYSQL_HOST=mysql
     - BASE_URL=https://localhost
+    - DOMAIN=localhost
   links:
     - consul:consul
     - mysql:mysql

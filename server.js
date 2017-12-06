@@ -14,20 +14,18 @@ async function main () {
 
   await server.register([
     Inert,
-    /*
     {
       plugin: Crumb,
       options: {
         restful: true,
         cookieOptions: {
           isSecure: false,
-          domain: 'localhost',
+          domain: process.env.DOMAIN,
           isHttpOnly: false,
           ttl: 1000 * 60 * 60       // 1 hour
         }
       }
     },
-    */
     {
       plugin: Sso,
       options: {
