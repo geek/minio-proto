@@ -157,6 +157,25 @@ check() {
 
     TRITON_CREDS_PATH=/root/.triton
 
+    echo '# Allowed list of account Ids who can access the site' >> _env
+    echo ALLOWED_ACCOUNTS=${TRITON_ACCOUNT} >> _env
+    echo >> _env
+
+    echo '# Site URL' >> _env
+    echo BASE_URL=https://bridge.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.triton.zone >> _env
+    echo DOMAIN=*.triton.zone >> _env
+    echo >> _env
+
+    echo '# Consul discovery via Triton CNS' >> _env
+    echo CONSUL=bridge-consul.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.joyent.com >> _env
+    echo CONSUL_AGENT=1 >> _env
+    echo >> _env
+
+    echo '# MySQL via Triton CNS' >> _env
+    echo MYSQL_HOST=bridge-mysql.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.joyent.com >> _env
+    echo >> _env
+
+    echo PORT=8080 >> _env
     echo 'COOKIE_PASSWORD='$(cat /dev/urandom | LC_ALL=C tr -dc 'A-Za-z0-9' | head -c 36) >> _env
     echo SDC_KEY_PATH=/root/.ssh/id_rsa >> _env
     echo DOCKER_CERT_PATH=${TRITON_CREDS_PATH} >> _env

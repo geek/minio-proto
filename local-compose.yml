@@ -6,8 +6,6 @@ mysql:
     - 3306
   env_file:
     - _env_mysql
-  volumes:
-    - ./sql:/docker-entrypoint-initdb.d
 
 consul:
   image: autopilotpattern/consul:1.0.0r43
@@ -18,8 +16,6 @@ consul:
    - CONSUL=localhost
   restart: always
   mem_limit: 512m
-  labels:
-    - triton.cns.services=bridge-consul
   ports:
     - 9090:9090
     - 8500:8500
