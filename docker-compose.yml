@@ -1,37 +1,49 @@
-mysql:
-  image: mysql:8
-  mem_limit: 512m
-  restart: always
-  labels:
-    - triton.cns.services=bridge-mysql
-  expose:
-    - 3306
-  env_file:
-    - _env_mysql
+version: '2.1'
 
-consul:
-  image: autopilotpattern/consul:1.0.0r43
-  command: >
-    /usr/local/bin/containerpilot
-  env_file:
-    - _env
-  restart: always
-  mem_limit: 512m
-  labels:
-    - triton.cns.services=bridge-consul
-  expose:
-    - 9090
-    - 8500
+services:
+  mysql:
+    image: mysql:8
+    mem_limit: 512m
+    restart: always
+    network_mode: bridge
+    labels:
+      - triton.cns.services=bridge-mysql
+    expose:
+      - 3306
+    env_file:
+      - _env_mysql
 
-prototype:
-  image: d0cker/minio-proto
-  restart: always
-  mem_limit: 1g
-  labels:
-    - triton.cns.services=bridge
-  env_file:
-    - _env
-    - _env_mysql
-  ports:
-    - 80:80
-    - 443:443
+  consul:
+    image: autopilotpattern/consul:1.0.0r43
+    command: >
+      /usr/local/bin/containerpilot
+    env_file:
+      - _env
+    restart: always
+    mem_limit: 512m
+    network_mode: bridge
+    labels:
+      - triton.cns.services=bridge-consul
+    expose:
+      - 9090
+      - 8500
+
+  prototype:
+    image: d0cker/minio-proto:0.0.5
+    restart: always
+    mem_limit: 1g
+    network_mode: bridge
+    labels:
+      - triton.cns.services=bridge
+    env_file:
+      - _env
+      - _env_mysql
+    environment:
+      - CONSUL=consul
+      - MYSQL_HOST=mysql
+    links:
+      - consul:consul
+      - mysql:mysql
+    ports:
+      - 80:80
+      - 443:443

@@ -163,7 +163,7 @@ check() {
 
     echo '# Site URL' >> _env
     echo BASE_URL=https://bridge.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.triton.zone >> _env
-    echo DOMAIN=*.triton.zone >> _env
+    echo COOKIE_DOMAIN=triton.zone >> _env
     echo >> _env
 
     echo '# Consul discovery via Triton CNS' >> _env

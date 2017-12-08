@@ -1,7 +1,7 @@
 'use strict';
 
 const Brule = require('brule');
-const Crumb = require('crumb');
+//const Crumb = require('crumb');
 const Hapi = require('hapi');
 const HapiPino = require('hapi-pino');
 const Inert = require('inert');
@@ -14,7 +14,7 @@ async function main () {
 
   await server.register([
     Inert,
-    {
+/*    {
       plugin: Crumb,
       options: {
         restful: true,
@@ -26,11 +26,13 @@ async function main () {
         }
       }
     },
+*/
     {
       plugin: Sso,
       options: {
         cookie: {
           password: process.env.COOKIE_PASSWORD,
+          domain: process.env.COOKIE_DOMAIN,
           isSecure: false,
           isHttpOnly: true,
           ttl: 1000 * 60 * 60       // 1 hour
@@ -51,11 +53,18 @@ async function main () {
     {
       plugin: Api,
       options: {
+        accounts: process.env.ALLOWED_ACCOUNTS,
         db: {
           user: process.env.MYSQL_USER,
           password: process.env.MYSQL_PASSWORD,
           database: process.env.MYSQL_DATABASE,
           host: process.env.MYSQL_HOST
+        },
+        cloudflare: {
+          zoneId: process.env.CF_ZONEID,
+          email: process.env.CF_EMAIL,
+          key: process.env.CF_KEY,
+          arecordParent: process.env.ARECORD_PARENT
         }
       }
     },
