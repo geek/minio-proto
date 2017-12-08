@@ -18,7 +18,7 @@ services:
     command: >
       /usr/local/bin/containerpilot
     env_file:
-      - _env
+      - _env_consul
     restart: always
     mem_limit: 512m
     network_mode: bridge
@@ -29,7 +29,7 @@ services:
       - 8500
 
   prototype:
-    image: d0cker/minio-proto:0.0.5
+    image: d0cker/minio-proto:0.0.7
     restart: always
     mem_limit: 1g
     network_mode: bridge
@@ -37,10 +37,12 @@ services:
       - triton.cns.services=bridge
     env_file:
       - _env
+      - _env_consul
       - _env_mysql
     environment:
       - CONSUL=consul
       - MYSQL_HOST=mysql
+      - NODE_ENV=development
     links:
       - consul:consul
       - mysql:mysql

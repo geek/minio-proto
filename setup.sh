@@ -145,6 +145,7 @@ check() {
     DOCKER_CERT_PATH=$(triton env | grep DOCKER_CERT_PATH | awk -F"=" '{print $2}')
     DOCKER_HOST=$(triton env | grep DOCKER_HOST | awk -F"=" '{print $2}')
 
+    rm _env_consul
     rm _env_mysql
     rm _env
 
@@ -155,6 +156,11 @@ check() {
 
     echo >> _env_mysql
 
+    echo '# Consul discovery via Triton CNS' >> _env_consul
+    echo CONSUL=bridge-consul.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.joyent.com >> _env_consul
+    echo CONSUL_AGENT=1 >> _env_consul
+    echo >> _env_consul
+
     TRITON_CREDS_PATH=/root/.triton
 
     echo '# Allowed list of account Ids who can access the site' >> _env
@@ -164,11 +170,6 @@ check() {
     echo '# Site URL' >> _env
     echo BASE_URL=https://bridge.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.triton.zone >> _env
     echo COOKIE_DOMAIN=triton.zone >> _env
-    echo >> _env
-
-    echo '# Consul discovery via Triton CNS' >> _env
-    echo CONSUL=bridge-consul.svc.${TRITON_ACCOUNT}.${TRITON_DC}.cns.joyent.com >> _env
-    echo CONSUL_AGENT=1 >> _env
     echo >> _env
 
     echo '# MySQL via Triton CNS' >> _env

@@ -3,5 +3,6 @@ node_modules
 .DS_Store
 sql/*
 _env
+_env_consul
 _env_mysql
 keys*
