@@ -21,7 +21,7 @@ consul:
     - 8500:8500
 
 prototype:
-  build: ./
+  image: d0cker/minio-proto:0.0.20
   restart: always
   mem_limit: 1g
   env_file:
@@ -32,7 +32,7 @@ prototype:
     - CONSUL=consul
     - CONSUL_AGENT=1
     - MYSQL_HOST=mysql
-    - BASE_URL=https://localhost
+    - BASE_URL=http://localhost
     - DOMAIN=localhost
   links:
     - consul:consul

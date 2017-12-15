@@ -20,7 +20,7 @@ async function main () {
         restful: true,
         cookieOptions: {
           isSecure: false,
-          domain: process.env.DOMAIN,
+          domain: process.env.COOKIE_DOMAIN,
           isHttpOnly: false,
           ttl: 1000 * 60 * 60       // 1 hour
         }

@@ -29,7 +29,7 @@ services:
       - 8500
 
   prototype:
-    image: d0cker/minio-proto:0.0.7
+    image: d0cker/minio-proto:0.0.20
     restart: always
     mem_limit: 1g
     network_mode: bridge
