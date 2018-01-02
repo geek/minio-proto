@@ -54,6 +54,7 @@ async function main () {
       plugin: Api,
       options: {
         accounts: process.env.ALLOWED_ACCOUNTS,
+        admins: process.env.ADMIN_ACCOUNTS,
         db: {
           user: process.env.MYSQL_USER,
           password: process.env.MYSQL_PASSWORD,
