@@ -3,11 +3,11 @@
 const Brule = require('brule');
 //const Crumb = require('crumb');
 const Hapi = require('hapi');
-const HapiPino = require('hapi-pino');
 const Inert = require('inert');
 const Api = require('minio-proto-api');
 const Sso = require('minio-proto-auth');
 const UI = require('minio-proto-ui');
+const Rollover = require('rollover');
 
 async function main () {
   const server = Hapi.server({ port: process.env.PORT || 80, host: '127.0.0.1' });
@@ -48,7 +48,13 @@ async function main () {
       }
     },
     {
-      plugin: HapiPino
+      plugin: Rollover,
+      options: {
+        rollbar: {
+          accessToken: process.env.ROLLBAR_SERVER_TOKEN,
+          reportLevel: 'error'
+        }
+      }
     },
     {
       plugin: Api,
@@ -85,6 +91,10 @@ async function main () {
 
   await server.start();
   console.log(`server started at http://localhost:${server.info.port}`);
+
+  process.on('unhandledRejection', (err) => {
+    server.log(['error'], err);
+  });
 }
 
 main();
