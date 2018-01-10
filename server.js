@@ -33,7 +33,7 @@ async function main () {
         cookie: {
           password: process.env.COOKIE_PASSWORD,
           domain: process.env.COOKIE_DOMAIN,
-          isSecure: false,
+          isSecure: true,
           isHttpOnly: true,
           ttl: 1000 * 60 * 60       // 1 hour
         },
@@ -57,10 +57,16 @@ async function main () {
       }
     },
     {
+      plugin: UI,
+      options: {}
+    },
+    {
       plugin: Api,
       options: {
         accounts: process.env.ALLOWED_ACCOUNTS,
         admins: process.env.ADMIN_ACCOUNTS,
+        authStrategy: 'sso',
+        graphiAuthStrategy: 'sso',
         db: {
           user: process.env.MYSQL_USER,
           password: process.env.MYSQL_PASSWORD,
@@ -80,17 +86,13 @@ async function main () {
       options: {
         auth: false
       }
-    },
-    {
-      plugin: UI,
-      options: {}
     }
   ]);
 
   server.auth.default('sso');
 
   await server.start();
-  console.log(`server started at http://localhost:${server.info.port}`);
+  server.log(['info'], `server started at http://0.0.0.0:${server.info.port}`);
 
   process.on('unhandledRejection', (err) => {
     server.log(['error'], err);

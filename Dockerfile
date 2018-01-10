@@ -38,7 +38,6 @@ COPY server.js /opt/app/
 WORKDIR /opt/app/
 
 ENV BUILD=production
-ENV NODE_ENV=production
-RUN npm install
+RUN npm install --production
 
 CMD ["containerpilot"]

@@ -11,9 +11,9 @@
     "crumb": "7.0.x",
     "hapi": "17.1.x",
     "inert": "5.0.x",
-    "minio-proto-api": "1.9.x",
+    "minio-proto-api": "1.10.x",
     "minio-proto-auth": "1.x.x",
-    "minio-proto-ui": "1.10.x",
+    "minio-proto-ui": "1.11.x",
     "rollover": "1.x.x"
   }
 }
